@@ -1,5 +1,8 @@
-from contact_list import contact_list
+# from contact_list import contact_list
+from classes import AddressBook, Name, Phone, Record
 
+
+contact_list = AddressBook()
 
 def command_error_handler(func):
 
@@ -38,8 +41,11 @@ def add_handler(username: str, number: str):
         raise ValueError(f"Number with name '{username}' already exist in contact list")
     else:
         if phone_valid(number):
-           contact_list[username] = number
-           return f"Contact with name '{username}' and number '{number}' was added successfully to contact list"
+            name = Name(username)
+            phone = Phone(number)
+            rec = Record(name, phone)
+            contact_list.add_record(rec)
+            return f"Contact with name '{username}' and number '{number}' was added successfully to contact list"
         return f"Entered '{number}' is not a phone number.\nPlease use correct: start with '+380', 12 digits"
 
 
@@ -84,8 +90,8 @@ def show_all_handler():
         return "Your contact list is empty yet. Please add new contacts."
     
     first_string ="Your contact list has the following contacts:\n"
-    contact_lines = "\n".join(f"Name: {username}; Phone number: {number};" for (username, number) in contact_list.items())
-    return first_string + contact_lines
+    #contact_lines "\n".join(f"Name: {username}; Phone number: {number};" for (username, number) in contact_list.items())
+    return first_string + contact_list.show_all()
 
 @command_error_handler 
 def exit_handler():
