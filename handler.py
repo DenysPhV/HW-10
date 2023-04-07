@@ -46,6 +46,7 @@ def add_handler(username: str, number: str):
             rec = Record(name, phone)
             contact_list.add_record(rec)
             return f"Contact with name '{username}' and number '{number}' was added successfully to contact list"
+        
         return f"Entered '{number}' is not a phone number.\nPlease use correct: start with '+380', 12 digits"
 
 
@@ -59,26 +60,23 @@ def change_handler(username: str, number: str, new_number: str):
         new_phone = Phone(new_number)
         return rec.change_phone_field(phone, new_phone)
     return f"Number for contact '{username}' does not exist in contact list. Please add it."
-    # if contact_valid(username):
-
-    #     if phone_valid(number):
-    #         contact_list[username] = number
-    #         return f"Number for contact '{username}' was changed successfully to '{number}'"
-        
-    #     return f"Entered '{number}' is not a phone number.\nPlease use correct: start with '380', 12 digits"
-    
-    # raise ValueError(f"Number for contact '{username}' does not exist in contact list. Please add it.")
-
+  
 
 @command_error_handler
 def delete_handler(username: str):
-
-    if username in contact_list.keys():
-        contact_list.pop(username)
-        return f"Contact '{username}' was deleted successfully from your contact list"
+    
+    name = Name(username)
+    rec:Record = contact_list.get(name.value)
+    print(rec)
+    if rec:
+        delete_name = Record(name)
+        return rec.delete_phone_field(delete_name)
+    # if name in contact_list.keys():
+    #     contact_list.pop(name)
+        # return f"Contact '{delete_name}' was deleted successfully from your contact list"
     
     raise ValueError(f"Contact with name '{username}' does not exist in contact list.")
-
+print(delete_handler())
 
 @command_error_handler
 def phone_handler(username: str):
@@ -97,7 +95,7 @@ def show_all_handler():
         return "Your contact list is empty yet. Please add new contacts."
     
     first_string ="Your contact list has the following contacts:\n"
-    #contact_lines "\n".join(f"Name: {username}; Phone number: {number};" for (username, number) in contact_list.items())
+    #contact_lines = "\n".join(f"Name: {username}; Phone number: {number};" for (username, number) in contact_list.items())
     return first_string + contact_list.show_all()
 
 @command_error_handler 
@@ -110,8 +108,9 @@ handler_dict = {
     "change": change_handler,
     "delete": delete_handler,
     "phone": phone_handler,
-    "show all": show_all_handler,
-    "good bye": exit_handler,
+    "show_all": show_all_handler,
+
+    "good_bye": exit_handler,
     "close": exit_handler,
     "exit": exit_handler,
 }

@@ -1,13 +1,16 @@
-from classes import Record
+# from classes import AddressBook
 
 def parser_gear_error_handler(func):
 
     def wrapper(user_input: str):
         try:
             return func(user_input)
-        except (ValueError, KeyError, TypeError) as err:
+        except (ValueError, 
+                KeyError, 
+                TypeError,  
+                SystemError) as err:
             print("Incorrect input. \nPlease check details and enter correct command ")
-            return str(err)
+        return str(err)
         
     return wrapper
 
@@ -69,7 +72,7 @@ def show_parser_gear(user_input: str):
 
 def exit_parser_gear(user_input: str):
 
-    if user_input.lower().strip() == ("goodbye", "close",  "exit"):
+    if user_input.lower().strip() == ("good_bye", "close", "exit"):
         return "exit", []
     
     raise ValueError
@@ -81,7 +84,8 @@ parser_gears_dict = {
     "change": change_parser_gear,
     "delete": delete_parser_gear,
     "phone": phone_parser_gear,
-    "goodbye": exit_parser_gear,
+    
+    "good_bye": exit_parser_gear,
     "close": exit_parser_gear,
     "exit": exit_parser_gear
 }

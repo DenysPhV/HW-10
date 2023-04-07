@@ -21,19 +21,20 @@ def main():
     while True:
         user_input = input("Please enter command: ")
         result = parser_gear_user_input(user_input=user_input)
+        
         if len(result) != 2:
             print(result)
             continue
+
         command, arguments = result
         command_handler = handler_dict.get(command)
+
         try:
             command_response = command_handler(*arguments)
             print(command_response)
         except SystemExit as err:
             print(str(err))
             break
-
-
 
 
 if __name__ == "__main__":
