@@ -50,17 +50,24 @@ def add_handler(username: str, number: str):
 
 
 @command_error_handler
-def change_handler(username: str, number: str):
+def change_handler(username: str, number: str, new_number: str):
 
-    if contact_valid(username):
+    name = Name(username)
+    rec:Record = contact_list.get(name.value)
+    if rec:
+        phone = Phone(number)
+        new_phone = Phone(new_number)
+        return rec.change_phone_field(phone, new_phone)
+    return f"Number for contact '{username}' does not exist in contact list. Please add it."
+    # if contact_valid(username):
 
-        if phone_valid(number):
-            contact_list[username] = number
-            return f"Number for contact '{username}' was changed successfully to '{number}'"
+    #     if phone_valid(number):
+    #         contact_list[username] = number
+    #         return f"Number for contact '{username}' was changed successfully to '{number}'"
         
-        return f"Entered '{number}' is not a phone number.\nPlease use correct: start with '380', 12 digits"
+    #     return f"Entered '{number}' is not a phone number.\nPlease use correct: start with '380', 12 digits"
     
-    raise ValueError(f"Number for contact '{username}' does not exist in contact list. Please add it.")
+    # raise ValueError(f"Number for contact '{username}' does not exist in contact list. Please add it.")
 
 
 @command_error_handler

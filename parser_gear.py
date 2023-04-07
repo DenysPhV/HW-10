@@ -28,11 +28,11 @@ def add_parser_gear(user_input: str):
 
 
 def change_parser_gear(user_input: str):
-    username, number = user_input.lstrip("change").strip().split(" ")
+    username, number, new_number = user_input.lstrip("change").strip().split(" ")
 
     if len(username) > 0 and len(number) > 0:
         username = username.capitalize()
-        return "change", [username, number]
+        return "change", [username, number, new_number]
     
     raise ValueError
 
