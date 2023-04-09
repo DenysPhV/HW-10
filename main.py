@@ -72,7 +72,7 @@ def delete(name: str, number:str):
     phone = Phone(number)
     in_garbage = Record(phone)
 
-    if phone in CONTACTS_ARRAY.keys():
+    if phone in CONTACTS_ARRAY.values():
         return f'Contact with name {name} already in the phone book'
     CONTACTS_ARRAY.delete_phone_field(in_garbage)
     return f'Contact with name {name} and phone {number} deleted'
