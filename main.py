@@ -68,11 +68,11 @@ def change(name: str, number:str):
 
 
 def delete(name: str, number:str):
-    user_name = Name(name)
+    
     phone = Phone(name)
-    in_garbage = Record(user_name, phone)
+    in_garbage = Record( phone)
 
-    if user_name in CONTACTS_ARRAY.keys():
+    if phone in CONTACTS_ARRAY.keys():
         return f'Contact with name {name} already in the phone book'
     CONTACTS_ARRAY.delete_phone_field(in_garbage)
     return f'Contact with name {name} and phone {number} deleted'
