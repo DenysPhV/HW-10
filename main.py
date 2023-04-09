@@ -1,3 +1,4 @@
+
 import functools
 from classes import * 
 CONTACTS_ARRAY = AddressBook()
@@ -68,17 +69,20 @@ def change(name: str, number:str):
         return f'Phone for contact {name} successful changed'
     return f'In phone book no contact with name {name}'
 
+# @error_handler
+# def delete(name: str, number:str):
+#     phone = Phone(number)
+
+#     if name in CONTACTS_ARRAY.keys():
+#         return f'Contact with name {name} already in the phone book'
+#     Record.delete_phone_field(phone)
+#     return f'Contact with name {name} and phone {number} deleted'
+
+
 @error_handler
-def delete(name: str, number:str):
-
- 
-    phone = Phone(number)
-
-    if name in CONTACTS_ARRAY.keys():
-        return f'Contact with name {name} already in the phone book'
-    Record.delete_phone_field(phone)
-    return f'Contact with name {name} and phone {number} deleted'
-
+def delete(name, number):
+    CONTACTS_ARRAY[Name(name)].delete_phone_field(Phone(number))
+    
 
 # take phone from dict 
 @error_handler
