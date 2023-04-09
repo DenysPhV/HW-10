@@ -3,6 +3,9 @@ from collections import UserDict
 class Field:
     def __init__(self, value: str):
         self.value = value
+    
+    def __str__(self) -> str:
+        return self.value
 class Name(Field):
     pass
 
@@ -41,4 +44,4 @@ class AddressBook(UserDict):
         self.data[rec.name.value] = rec
     
     def show_all(self):
-        return '\n'.join([f'{r.name.value : r.phones}' for r in self.data])
+        return '\n'.join([f'{r.name.value} : {",".join([str(p) for p in r.phones])}' for r in self.data.values()])
