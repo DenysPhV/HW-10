@@ -55,16 +55,28 @@ def attach(name: str, number: str):
 
 def change(name: str, number:str):
 
-    user_name = Name(name[0])
-    phone = Phone(number[1])
-    rec = Record(user_name, phone)
+    user_name = Name(name)
+    phone = Phone(number)
+    changed = Record(user_name, phone)
 
     old_phone = CONTACTS_ARRAY.get(user_name)
     if old_phone:
-        CONTACTS_ARRAY.change_phone_field(rec)
+        CONTACTS_ARRAY.change_phone_field(changed)
         # CONTACTS_ARRAY[name] = phone
         return f'Phone for contact {name} successful changed'
     return f'In phone book no contact with name {name}'
+
+
+def delete(name: str, number:str):
+    user_name = Name(name)
+    phone = Phone(name)
+    in_garbage = Record(user_name, phone)
+
+    if user_name in CONTACTS_ARRAY.keys():
+        return f'Contact with name {name} already in the phone book'
+    CONTACTS_ARRAY.delete_phone_field(in_garbage)
+    return f'Contact with name {name} and phone {number} deleted'
+
 
 # take phone from dict 
 @error_handler
@@ -121,6 +133,11 @@ def parser(command):
             return COMMAND_ARRAY[key], new_line.split()
     return no_command, []
             
+@error_handler
+def change_parser(name:str, number:str):
+    if name not in COMMAND_ARRAY.keys():
+        raise KeyError
+    COMMAND_ARRAY[name] = number
 
 
 @ welcome_bot
