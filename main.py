@@ -115,6 +115,7 @@ COMMAND_ARRAY = {
     "hello": lambda: print("May I help you?"),
     "add": attach,
     "change": change,
+    "delete": delete,
     "phone": show_phone,
     "show all":reader,
     'exit': say_good_bye,
