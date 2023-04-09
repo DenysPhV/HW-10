@@ -30,7 +30,8 @@ for reading please input:                   phone name         (example: phone D
 
 def welcome_bot(func):
     def inner(*args, **kwargs):
-        print("-"*32+"\nWelcome to Assistant Console Bot\n"+"-"*32)
+        greeting = "\nWelcome to Assistant Console Bot\n"
+        print("-"*(len(greeting)-2)+greeting+"-"*(len(greeting)-2))
         return func(*args, **kwargs)
     return inner
 
@@ -47,34 +48,35 @@ def attach(name: str, number: str):
     return f'Contact with name {name} and phone {number} add successful'
    
 # change number contact
-@error_handler
+# @error_handler
 # def change(name:str, number:str):
-#     if name not in COMMAND_ARRAY.keys():
+#     if name not in CONTACTS_ARRAY.keys():
 #         raise KeyError
-#     COMMAND_ARRAY[name] = number
+#     CONTACTS_ARRAY[name] = number
 
+@error_handler
 def change(name: str, number:str):
 
     user_name = Name(name)
     phone = Phone(number)
-    changed = Record(user_name, phone)
+    rec = Record(user_name, phone)
 
     old_phone = CONTACTS_ARRAY.get(user_name)
+
     if old_phone:
-        CONTACTS_ARRAY.change_phone_field(changed)
-        # CONTACTS_ARRAY[name] = phone
+        CONTACTS_ARRAY.change_phone_field(rec)
         return f'Phone for contact {name} successful changed'
     return f'In phone book no contact with name {name}'
 
-
+@error_handler
 def delete(name: str, number:str):
 
+ 
     phone = Phone(number)
-    in_garbage = Record(phone)
 
-    if phone in CONTACTS_ARRAY.values():
+    if name in CONTACTS_ARRAY.keys():
         return f'Contact with name {name} already in the phone book'
-    CONTACTS_ARRAY.delete_phone_field(in_garbage)
+    Record.delete_phone_field(phone)
     return f'Contact with name {name} and phone {number} deleted'
 
 
@@ -134,12 +136,6 @@ def parser(command):
             return COMMAND_ARRAY[key], new_line.split()
     return no_command, []
             
-@error_handler
-def change_parser(name:str, number:str):
-    if name not in COMMAND_ARRAY.keys():
-        raise KeyError
-    COMMAND_ARRAY[name] = number
-
 
 @ welcome_bot
 def main():
