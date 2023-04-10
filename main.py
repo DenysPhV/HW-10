@@ -1,4 +1,3 @@
-
 import functools
 from classes import * 
 CONTACTS_ARRAY = AddressBook()
@@ -41,10 +40,13 @@ def welcome_bot(func):
 def attach(name: str, number: str):
     user_name = Name(name)
     phone = Phone(number)
-    rec = Record(user_name, phone)
+    rec:Record = CONTACTS_ARRAY.get(user_name.value)
     
-    if user_name in CONTACTS_ARRAY.keys():
-      return f'Contact with name {name} already in the phone book'
+    if rec:
+        rec.add_phone_field(phone)
+        return f"Phone number {phone} added successfully to contact {user_name}"
+    
+    rec = Record(user_name, phone)
     CONTACTS_ARRAY.add_record(rec)
     return f'Contact with name {name} and phone {number} add successful'
    
