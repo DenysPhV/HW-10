@@ -13,8 +13,9 @@ def error_handler(func):
             print("""You have not entered all data!!!
 --------------------------------------------------------------------------------------------------
 for adding new phone number please input:   add name tel.      (example: add Denys 345-45-45)
-for change please input:                    change name tel.   (example: change Denys 2345789)
+for change please input:                    change name old tel. new tel.   (example: change Denys 234-57-89 584-25-12)
 for reading please input:                   phone name         (example: phone Denys)
+for delete number:                          delete name tel.   (example: phone Denys 345-45-45)
 --------------------------------------------------------------------------------------------------""")
         except KeyError:
             print("This user was not found in the phone book!")
@@ -63,12 +64,12 @@ def delete(name: str, number: str):
 def change(name: str, old_number:str, new_number: str):
 
     user_name = Name(name)
-    phone = Phone(new_number)
-    
+    old_number = Phone(old_number)
+    new_number = Phone(new_number)
     rec:Record = CONTACTS_ARRAY.get(user_name.value)
 
     if old_number:
-        return rec.change_phone_field(new_number)
+        return rec.change_phone_field(old_number, new_number)
 
     
 # take phone from dict 
