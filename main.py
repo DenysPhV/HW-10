@@ -5,12 +5,10 @@ CONTACTS_ARRAY = AddressBook()
 def error_handler(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-    # def wrapper(*args):
         result = False
 
         try:
             result = func(*args, **kwargs)
-            # result = func(*args)
         except TypeError:
             print("""You have not entered all data!!!
 --------------------------------------------------------------------------------------------------
@@ -41,7 +39,7 @@ def attach(name: str, number: str):
     user_name = Name(name)
     phone = Phone(number)
     rec:Record = CONTACTS_ARRAY.get(user_name.value)
-    
+
     if rec:
         rec.add_phone_field(phone)
         return f"Phone number {phone} added successfully to contact {user_name}"
@@ -50,42 +48,30 @@ def attach(name: str, number: str):
     CONTACTS_ARRAY.add_record(rec)
     return f'Contact with name {name} and phone {number} add successful'
    
-# change number contact
-# @error_handler
-# def change(name:str, number:str):
-#     if name not in CONTACTS_ARRAY.keys():
-#         raise KeyError
-#     CONTACTS_ARRAY[name] = number
 
 @error_handler
+def delete(name: str, number: str):
+    user_name = Name(name)
+    phone = Phone(number)
+    rec:Record = CONTACTS_ARRAY.get(user_name.value)
+
+    if rec:
+        rec.delete_phone_field(phone)
+      
+
+@error_handler  # change number contact
 def change(name: str, number:str):
 
     user_name = Name(name)
     phone = Phone(number)
-    rec = Record(user_name, phone)
+    rec:Record = CONTACTS_ARRAY.get(user_name.value)
 
-    old_phone = CONTACTS_ARRAY.get(user_name)
+    if rec:
+        rec.change_phone_field(phone)
+        return f'Phone for contact {user_name} successful changed'
+    return f'In phone book no contact with name {user_name}'
 
-    if old_phone:
-        CONTACTS_ARRAY.change_phone_field(rec)
-        return f'Phone for contact {name} successful changed'
-    return f'In phone book no contact with name {name}'
-
-# @error_handler
-# def delete(name: str, number:str):
-#     phone = Phone(number)
-
-#     if name in CONTACTS_ARRAY.keys():
-#         return f'Contact with name {name} already in the phone book'
-#     Record.delete_phone_field(phone)
-#     return f'Contact with name {name} and phone {number} deleted'
-
-
-@error_handler
-def delete(name, number):
-    CONTACTS_ARRAY[Name(name)].delete_phone_field(Phone(number))
     
-
 # take phone from dict 
 @error_handler
 def get_phone(name: str):
@@ -106,10 +92,6 @@ def reader():
     if not CONTACTS_ARRAY:
         return "Your contact list is empty."
     return CONTACTS_ARRAY.show_all()
-    # array_message = ''
-    # for name, number in CONTACTS_ARRAY.items():
-    #     array_message += ('|{:<12}|{:<15}\n'.format(name, number))
-    # return array_message
 
 # say good bye and exit
 @error_handler
@@ -141,6 +123,12 @@ def parser(command):
             new_line = command[len(key):].title()
             return COMMAND_ARRAY[key], new_line.split()
     return no_command, []
+
+@error_handler
+def parser_change(name:str, number:str):
+    if name not in CONTACTS_ARRAY.keys():
+        raise KeyError
+    CONTACTS_ARRAY[name] = number
             
 
 @ welcome_bot
