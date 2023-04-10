@@ -24,6 +24,15 @@ class Record:
 
     def add_phone_field(self, phone_number: Phone):
         self.phones.append(phone_number)
+   
+        
+    def delete_phone_field(self, phone_number: Phone):
+        for i in self.phones:
+            if i.value == phone_number.value:
+                self.phones.remove(i)
+                return f'Phone {i.value} delete successful.'
+            return f'Phone {phone_number.value} not found'
+
 
     def change_phone_field(self, old_number: Phone, new_number: Phone):
         for i, p in enumerate(self.phones):
@@ -32,14 +41,7 @@ class Record:
                 return f"Phone {old_number.value} changed on {new_number.value}"
         return f"Contact does not contain such phone number: {old_number}"
     
-        
-    def delete_phone_field(self, phone_number: Phone):
-        for p in self.phones:
-            if p.value == phone_number.value:
-                self.phones.remove(p)
-                return f'Phone {p.value} delete successful.'
-            return f'Phone {phone_number.value} not found'
-        
+     
 class AddressBook(UserDict):
 
     def add_record(self, rec: Record):

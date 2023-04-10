@@ -56,20 +56,19 @@ def delete(name: str, number: str):
     rec:Record = CONTACTS_ARRAY.get(user_name.value)
 
     if rec:
-        rec.delete_phone_field(phone)
-      
+        return rec.delete_phone_field(phone)
+
 
 @error_handler  # change number contact
-def change(name: str, number:str):
+def change(name: str, old_number:str, new_number: str):
 
     user_name = Name(name)
-    phone = Phone(number)
+    phone = Phone(new_number)
+    
     rec:Record = CONTACTS_ARRAY.get(user_name.value)
 
-    if rec:
-        rec.change_phone_field(phone)
-        return f'Phone for contact {user_name} successful changed'
-    return f'In phone book no contact with name {user_name}'
+    if old_number:
+        return rec.change_phone_field(new_number)
 
     
 # take phone from dict 
@@ -123,12 +122,6 @@ def parser(command):
             new_line = command[len(key):].title()
             return COMMAND_ARRAY[key], new_line.split()
     return no_command, []
-
-@error_handler
-def parser_change(name:str, number:str):
-    if name not in CONTACTS_ARRAY.keys():
-        raise KeyError
-    CONTACTS_ARRAY[name] = number
             
 
 @ welcome_bot
